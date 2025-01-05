@@ -1,0 +1,5 @@
+data/lfw filter=lfs diff=lfs merge=lfs -text
+data/lfw-112x112 filter=lfs diff=lfs merge=lfs -text
+data/lfw-112x96 filter=lfs diff=lfs merge=lfs -text
+data/lfw-160x160 filter=lfs diff=lfs merge=lfs -text
+data/lfw.tgz filter=lfs diff=lfs merge=lfs -text
