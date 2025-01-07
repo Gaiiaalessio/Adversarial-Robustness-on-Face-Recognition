@@ -1,12 +1,13 @@
-torchvision>=0.2.2
 torch>=1.4.0
-matplotlib==2.2.4
-sklearn
-scipy==1.0.1
-scikit-image==0.14.2
-opencv-python==4.1.0.25
+torchvision>=0.2.2
+matplotlib>=3.4.0
+scikit-learn  # sklearn viene installato tramite questo pacchetto
+scipy>=1.10.1  # Usa una versione più recente
+scikit-image>=0.18.3  # Versione più recente e compatibile
+opencv-python>=4.5.0  # Usa una versione aggiornata
 easydict
 tensorlayer==1.7
-progressbar==2.5
-numpy==1.15.1
+progressbar2>=3.53.1  # progressbar aggiornato con il nome corretto
+numpy>=1.18.0  # Versione aggiornata di numpy
 tqdm
+

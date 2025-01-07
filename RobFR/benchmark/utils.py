@@ -146,9 +146,9 @@ def run_white(loader, attacker, model, args, device):
     model = model.to(device)
 
     for xs, ys, ys_feat, pairs in tqdm(loader, total=len(loader)):
-        # Controllo per batch vuoti o con immagini non valide
-        if xs is None or ys is None or ys_feat is None or len(xs) == 0:
-            print("[WARNING] Batch con immagini mancanti o vuoto. Saltando...")
+        # Verifica batch vuoti o dati mancanti
+        if xs is None or ys is None or len(xs) == 0:
+            print(f"[WARNING] Batch vuoto o dati mancanti. Saltando...")
             continue
 
         try:
@@ -179,8 +179,6 @@ def run_white(loader, attacker, model, args, device):
 
                 dists.append(dist)
                 imgs.append(pairs[i][1])
-                original_image = xs[i].cpu().numpy().transpose((1, 2, 0))
-                save_images(img, original_image, f"{cnt}.png", args.output)
 
         except Exception as e:
             print(f"[ERROR] Errore durante l'elaborazione del batch. Dettagli: {e}")
@@ -191,4 +189,6 @@ def run_white(loader, attacker, model, args, device):
         f.write('adv_img,tar_img,score,dist,success\n')
         for adv, img, score, d, s in zip(advs, imgs, scores, dists, success):
             f.write(f"{adv},{img},{score},{d},{s}\n")
+
+
 
