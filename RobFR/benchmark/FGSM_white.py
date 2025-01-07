@@ -61,12 +61,15 @@ def main():
         'bin_steps': args.bin_steps,
         'model': model,
     }
-        
-    datadir = os.path.join('data', '{}-{}x{}'.format(args.dataset, img_shape[0], img_shape[1]))
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    datadir = os.path.join(project_root, 'data/lfw'.format(args.dataset, img_shape[0], img_shape[1]))
+
     loader = LOADER_DICT[args.dataset](datadir, args.goal, args.batch_size, model)
     Attacker = lambda xs, ys, ys_feat, pairs: binsearch_basic(xs=xs, ys=ys, 
-        ys_feat=ys_feat, pairs=pairs, **config)
-    run_white(loader, Attacker, model, args)
+        ys_feat=ys_feat, pairs=pairs, device="cpu", **config)
+    
+    # Chiama run_white con il loader e l'Attacker
+    run_white(loader, Attacker, model, args, device="cpu")
 
 if __name__ == '__main__':
     main()

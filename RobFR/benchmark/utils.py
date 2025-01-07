@@ -139,38 +139,56 @@ def run_black(loader, attacker, args, device):
 
 def run_white(loader, attacker, model, args, device):
     os.makedirs('log', exist_ok=True)
+    os.makedirs(args.output, exist_ok=True)
     cnt = 0
     scores, dists, success, advs, imgs = [], [], [], [], []
 
     model = model.to(device)
 
     for xs, ys, ys_feat, pairs in tqdm(loader, total=len(loader)):
-        xs, ys, ys_feat = xs.to(device), ys.to(device), ys_feat.to(device)
-        x_adv, found = attacker(xs=xs, ys=ys, ys_feat=ys_feat, pairs=pairs)
-        y_adv = model(x_adv)
-        s = torch.sum(y_adv * ys_feat, dim=1)
+        # Controllo per batch vuoti o con immagini non valide
+        if xs is None or ys is None or ys_feat is None or len(xs) == 0:
+            print("[WARNING] Batch con immagini mancanti o vuoto. Saltando...")
+            continue
 
-        for i in range(len(pairs)):
-            img = x_adv[i].detach().cpu().numpy().transpose((1, 2, 0))
-            x = xs[i].detach().cpu().numpy().transpose((1, 2, 0))
-            scores.append(s[i].item())
-            success.append(int(found[i].item()))
-            cnt += 1
-            advs.append(f"{cnt}.npy")
-            npy_path = os.path.join(args.output, f"{cnt}.npy")
-            np.save(npy_path, img)
+        try:
+            # Passa il batch al dispositivo
+            xs, ys, ys_feat = xs.to(device), ys.to(device), ys_feat.to(device)
+            
+            # Attacco e predizione
+            x_adv, found = attacker(xs=xs, ys=ys, ys_feat=ys_feat, pairs=pairs)
+            y_adv = model(x_adv)
+            s = torch.sum(y_adv * ys_feat, dim=1)
 
-            if args.distance == 'l2':
-                dist = np.linalg.norm(img - x) / np.sqrt(img.size)
-            else:
-                dist = np.max(np.abs(img - x))
+            # Elaborazione dei risultati
+            for i in range(len(pairs)):
+                img = x_adv[i].detach().cpu().numpy().transpose((1, 2, 0))
+                x = xs[i].detach().cpu().numpy().transpose((1, 2, 0))
+                scores.append(s[i].item())
+                success.append(int(found[i].item()))
+                cnt += 1
+                advs.append(f"{cnt}.npy")
+                npy_path = os.path.join(args.output, f"{cnt}.npy")
+                np.save(npy_path, img)
 
-            dists.append(dist)
-            imgs.append(pairs[i][1])
-            original_image = xs[i].cpu().numpy().transpose((1, 2, 0))
-            save_images(img, original_image, f"{cnt}.png", args.output)
+                # Calcola la distanza
+                if args.distance == 'l2':
+                    dist = np.linalg.norm(img - x) / np.sqrt(img.size)
+                else:
+                    dist = np.max(np.abs(img - x))
 
+                dists.append(dist)
+                imgs.append(pairs[i][1])
+                original_image = xs[i].cpu().numpy().transpose((1, 2, 0))
+                save_images(img, original_image, f"{cnt}.png", args.output)
+
+        except Exception as e:
+            print(f"[ERROR] Errore durante l'elaborazione del batch. Dettagli: {e}")
+            continue  # Salta il batch in caso di errore
+
+    # Salvataggio dei risultati nel file di log
     with open(os.path.join('log', args.log), 'w') as f:
         f.write('adv_img,tar_img,score,dist,success\n')
         for adv, img, score, d, s in zip(advs, imgs, scores, dists, success):
             f.write(f"{adv},{img},{score},{d},{s}\n")
+

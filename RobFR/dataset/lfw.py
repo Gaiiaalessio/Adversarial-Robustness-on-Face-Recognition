@@ -19,8 +19,16 @@ class LFWLoader(Loader):
             if len(line) == 3 and goal == 'dodging':
                 path_src = os.path.join(datadir, line[0], line[0] + '_' + line[1].zfill(4) + suffix)
                 path_dst = os.path.join(datadir, line[0], line[0] + '_' + line[2].zfill(4) + suffix)
-                self.pairs.append([path_src, path_dst])
             elif len(line) == 4 and goal == 'impersonate':
                 path_src = os.path.join(datadir, line[0], line[0] + '_' + line[1].zfill(4) + suffix)
                 path_dst = os.path.join(datadir, line[2], line[2] + '_' + line[3].zfill(4) + suffix)
-                self.pairs.append([path_src, path_dst])
+            else:
+                continue
+
+            # Controlla se entrambi i file esistono
+            if not os.path.exists(path_src) or not os.path.exists(path_dst):
+                print(f"[WARNING] Una delle immagini non esiste. Saltando coppia: {path_src}, {path_dst}")
+                continue
+
+            self.pairs.append([path_src, path_dst])
+

@@ -2,22 +2,37 @@ from skimage.io import imread
 import numpy as np
 import os
 import torch
+
 def read_pair(path, device, model=None, return_feat=False):
-    """
-        Read image and get its logits
-        Args:
-            path: string, the path of image
-            model: A FaceModel
-        Returns:
-            img: Tensor of shape (1, 3, H, W). HxW is the shape of input image. 160x160 for FaceNet, 112x96 for CosFace and SphereFace. 112x112 is the default shape.
-            feat: Tensor of shape (1, model.out_dims). It is set to 512 in this paper.
-    """
-    img = imread(path).astype(np.float32)
-    img = torch.Tensor(img.transpose((2, 0, 1))[None, :]).to(device)
+    if not os.path.exists(path):
+        print(f"[WARNING] Immagine non trovata: {path}. Saltando...")
+        return None
+
+    try:
+        img = imread(path).astype(np.float32)
+        
+        # Controllo se l'immagine ha 3 canali (RGB)
+        if len(img.shape) != 3 or img.shape[2] != 3:
+            print(f"[WARNING] Immagine non valida (canali errati): {path}. Saltando...")
+            return None
+
+        img = torch.Tensor(img.transpose((2, 0, 1))[None, :]).to(device)
+    except Exception as e:
+        print(f"[WARNING] Errore durante la lettura dell'immagine: {path}. Errore: {e}")
+        return None
+
     if not return_feat:
         return img
-    feat = model.forward(img).detach().requires_grad_(False)
+
+    try:
+        feat = model.forward(img).detach().requires_grad_(False)
+    except Exception as e:
+        print(f"[WARNING] Errore durante il calcolo delle feature: {path}. Errore: {e}")
+        return img, None
+
     return img, feat
+
+
 class Loader:
     def __init__(self, batch_size, model):
         self.batch_size = batch_size
@@ -36,15 +51,38 @@ class Loader:
             xs, ys, ys_feat = [], [], []
             for pair in minibatches_pair:
                 path_src, path_dst = pair
+
+                # Debug per verificare i percorsi
+                if not os.path.exists(path_src):
+                    print(f"[DEBUG] Immagine sorgente non trovata: {path_src}")
+                if not os.path.exists(path_dst):
+                    print(f"[DEBUG] Immagine destinazione non trovata: {path_dst}")
+
                 img_src = read_pair(path_src, self.device)
-                img_dst, feat_dst = read_pair(path_dst, self.device, self.model, return_feat=True)
+                if img_src is None:
+                    continue
+
+                result = read_pair(path_dst, self.device, self.model, return_feat=True)
+                if result is None:
+                    continue
+
+                img_dst, feat_dst = result
+                if feat_dst is None:
+                    continue
+
                 xs.append(img_src)
                 ys.append(img_dst)
                 ys_feat.append(feat_dst)
+
+            if not xs or not ys or not ys_feat:
+                print("[WARNING] Nessun dato valido nel batch. Saltando batch...")
+                return self.__next__()
+
             xs = torch.cat(xs)
             ys = torch.cat(ys)
             ys_feat = torch.cat(ys_feat)
             return xs, ys, ys_feat, minibatches_pair
         else:
             raise StopIteration
+
 
