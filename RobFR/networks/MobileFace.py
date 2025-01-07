@@ -1,8 +1,6 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-from torch.nn import Parameter
-import math
+import os
 from RobFR.networks.FaceModel import FaceModel
 
 
@@ -11,15 +9,12 @@ class Bottleneck(nn.Module):
         super(Bottleneck, self).__init__()
         self.connect = stride == 1 and inp == oup
         self.conv = nn.Sequential(
-            # Pointwise
             nn.Conv2d(inp, inp * expansion, 1, 1, 0, bias=False),
             nn.BatchNorm2d(inp * expansion),
             nn.PReLU(inp * expansion),
-            # Depthwise
             nn.Conv2d(inp * expansion, inp * expansion, 3, stride, 1, groups=inp * expansion, bias=False),
             nn.BatchNorm2d(inp * expansion),
             nn.PReLU(inp * expansion),
-            # Pointwise linear
             nn.Conv2d(inp * expansion, oup, 1, 1, 0, bias=False),
             nn.BatchNorm2d(oup),
         )
@@ -93,19 +88,35 @@ class MobileFacenet(nn.Module):
         x = self.linear7(x)
         x = self.linear1(x)
         return x.view(x.size(0), -1)
-
+    
 
 class MobileFace(FaceModel):
     def __init__(self, **kwargs):
         net = MobileFacenet()
-        url = 'http://ml.cs.tsinghua.edu.cn/~dingcheng/ckpts/face_models/model7/Backbone_mobileface_Epoch_36_Batch_409392_Time_2019-04-07-16-40_checkpoint.pth'
+        url = "../../ckpts/Backbone_mobileface_Epoch_36_Batch_409392_Time_2019-04-07-16-40_checkpoint.pth"
         channel = 'bgr'
-        super(MobileFace, self).__init__(net=net, url=url, channel=channel, **kwargs)
-
+        kwargs.pop('url', None)  # Rimuovi 'url' da kwargs se presente
+        FaceModel.__init__(
+            self,
+            net=net,
+            url=url,
+            channel=channel,
+            **kwargs
+        )
 
 if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = MobileFace(device=device)
-    dummy_input = torch.randn(1, 3, 112, 112).to(device)
-    output = model(dummy_input)
-    print(f"Output shape: {output.shape}")
+    try:
+        print("Inizializzazione del modello MobileFace...")
+        model = MobileFace(
+            #url="../../ckpts/Backbone_mobileface_Epoch_36_Batch_409392_Time_2019-04-07-16-40_checkpoint.pth",
+            device=device
+        )
+        print("Modello MobileFace inizializzato con successo.")
+
+        # Test del forward pass
+        dummy_input = torch.randn(1, 3, 112, 112).to(device)
+        output = model(dummy_input)
+        print(f"Output shape: {output.shape}")
+    except Exception as e:
+        print(f"[ERROR] Errore durante l'esecuzione: {e}")

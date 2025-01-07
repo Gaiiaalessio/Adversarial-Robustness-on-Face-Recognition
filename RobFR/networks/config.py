@@ -1,39 +1,39 @@
 threshold_lfw = {
-	'ShuffleNet_V2_GDConv-stride1':{'cos': 0.22403636574745178, 'cos_acc': 0.9915},
-	'Mobilenet':{'cos': 0.15846577286720276, 'cos_acc': 0.9935},
-	'MobilenetV2-stride1':{'cos': 0.24340271949768066, 'cos_acc': 0.9905},
-	'CosFace':{'cos': 0.24625787138938904, 'cos_acc': 0.9868333333333333},
-	'FaceNet-VGGFace2':{'cos': 0.42074376344680786, 'cos_acc': 0.9923333333333333},
-	'Mobilenet-stride1':{'cos': 0.19342336058616638, 'cos_acc': 0.9956666666666667},
-	'SphereFace':{'cos': 0.34931832551956177, 'cos_acc': 0.9818333333333333},
-	'MobileFace':{'cos': 0.21116749942302704, 'cos_acc': 0.9945},
-	'FaceNet-casia':{'cos': 0.4289606213569641, 'cos_acc': 0.981},
-	'MobilenetV2':{'cos': 0.22666725516319275, 'cos_acc': 0.9933333333333333},
-    'ArcFace':{'cos_acc': 0.995, 'cos': 0.28402677178382874},
-	'ResNet50':{'cos': 0.19116485118865967, 'cos_acc': 0.9971666666666666},
-	'ShuffleNet_V1_GDConv':{'cos_acc': 0.9946666666666667, 'cos': 0.19073212146759033},
-	'ResNet50-casia':{'cos': 0.1854616403579712, 'cos_acc': 0.986},
-    'IR50-Am':{'cos': 0.45836973190307617, 'cos_acc': 0.9921666666666666},	
-	'IR50-ArcFace':{'cos_acc': 0.997, 'cos': 0.27737492322921753},
-	'IR50-CosFace':{'cos_acc': 0.997, 'cos': 0.22401964664459229},
-	'IR50-Softmax':{'cos': 0.34233152866363525, 'cos_acc': 0.996},
-	'IR50-SphereFace':{'cos_acc': 0.9958333333333333, 'cos': 0.361619234085083},
-    'IR50-PGDSoftmax':{'cos_acc': 0.913, 'cos': 0.3052944242954254},
-    'IR50-TradesSoftmax':{'cos': 0.32782697677612305, 'cos_acc': 0.9095},
-    'IR50-PGDArcFace':{'cos_acc': 0.8766666666666667, 'cos': 0.37509775161743164},
-	'IR50-TradesArcFace':{'cos': 0.852626383304596, 'cos_acc': 0.9506666666666667},
-    'IR50-PGDCosFace':{'cos': 0.2336357682943344, 'cos_acc': 0.8618333333333333},
-	'IR50-TradesCosFace':{'cos': 0.6367585062980652, 'cos_acc': 0.9073333333333333},
-	'IR50-PGDAm':{'cos': 0.415134072303772, 'cos_acc': 0.85},
-	'IR50-PGDSphereFace':{'cos': 0.5209366679191589, 'cos_acc': 0.8881666666666667},
-    'CASIA-Am':{'cos': 0.4614875912666321, 'cos_acc': 0.978},
-    'CASIA-ArcFace':{'cos': 0.3242388069629669, 'cos_acc': 0.9905},
-    'CASIA-CosFace':{'cos': 0.23147112131118774, 'cos_acc': 0.9911666666666666},
-    'CASIA-Softmax':{'cos': 0.3241730332374573, 'cos_acc': 0.9883333333333333},
-    'CASIA-SphereFace':{'cos': 0.4365990459918976, 'cos_acc': 0.9765},
-	'IR50-Softmax-BR':{'cos': 0.33871138095855713, 'cos_acc': 0.996},
-	'IR50-Softmax-JPEG':{'cos': 0.34150177240371704, 'cos_acc': 0.9958333333333333},
-	'IR50-Softmax-RP':{'cos': 0.35351189970970154, 'cos_acc': 0.9941666666666666},
+    'ShuffleNet_V2_GDConv-stride1': {'cos': 0.22403636574745178, 'cos_acc': 0.9915},
+    'Mobilenet': {'cos': 0.15846577286720276, 'cos_acc': 0.9935},
+    'MobilenetV2-stride1': {'cos': 0.24340271949768066, 'cos_acc': 0.9905},
+    'CosFace': {'cos': 0.24625787138938904, 'cos_acc': 0.9868333333333333},
+    'FaceNet-VGGFace2': {'cos': 0.42074376344680786, 'cos_acc': 0.9923333333333333},
+    'Mobilenet-stride1': {'cos': 0.19342336058616638, 'cos_acc': 0.9956666666666667},
+    'SphereFace': {'cos': 0.34931832551956177, 'cos_acc': 0.9818333333333333},
+    'MobileFace': {'cos': 0.21116749942302704, 'cos_acc': 0.9945},
+    'FaceNet-casia': {'cos': 0.4289606213569641, 'cos_acc': 0.981},
+    'MobilenetV2': {'cos': 0.22666725516319275, 'cos_acc': 0.9933333333333333},
+    'ArcFace': {'cos_acc': 0.995, 'cos': 0.28402677178382874},
+    'ResNet50': {'cos': 0.19116485118865967, 'cos_acc': 0.9971666666666666},
+    'ShuffleNet_V1_GDConv': {'cos_acc': 0.9946666666666667, 'cos': 0.19073212146759033},
+    'ResNet50-casia': {'cos': 0.1854616403579712, 'cos_acc': 0.986},
+    'IR50-Am': {'cos': 0.45836973190307617, 'cos_acc': 0.9921666666666666},
+    'IR50-ArcFace': {'cos_acc': 0.997, 'cos': 0.27737492322921753},
+    'IR50-CosFace': {'cos_acc': 0.997, 'cos': 0.22401964664459229},
+    'IR50-Softmax': {'cos': 0.34233152866363525, 'cos_acc': 0.996},
+    'IR50-SphereFace': {'cos_acc': 0.9958333333333333, 'cos': 0.361619234085083},
+    'IR50-PGDSoftmax': {'cos_acc': 0.913, 'cos': 0.3052944242954254},
+    'IR50-TradesSoftmax': {'cos': 0.32782697677612305, 'cos_acc': 0.9095},
+    'IR50-PGDArcFace': {'cos_acc': 0.8766666666666667, 'cos': 0.37509775161743164},
+    'IR50-TradesArcFace': {'cos': 0.852626383304596, 'cos_acc': 0.9506666666666667},
+    'IR50-PGDCosFace': {'cos': 0.2336357682943344, 'cos_acc': 0.8618333333333333},
+    'IR50-TradesCosFace': {'cos': 0.6367585062980652, 'cos_acc': 0.9073333333333333},
+    'IR50-PGDAm': {'cos': 0.415134072303772, 'cos_acc': 0.85},
+    'IR50-PGDSphereFace': {'cos': 0.5209366679191589, 'cos_acc': 0.8881666666666667},
+    'CASIA-Am': {'cos': 0.4614875912666321, 'cos_acc': 0.978},
+    'CASIA-ArcFace': {'cos': 0.3242388069629669, 'cos_acc': 0.9905},
+    'CASIA-CosFace': {'cos': 0.23147112131118774, 'cos_acc': 0.9911666666666666},
+    'CASIA-Softmax': {'cos': 0.3241730332374573, 'cos_acc': 0.9883333333333333},
+    'CASIA-SphereFace': {'cos': 0.4365990459918976, 'cos_acc': 0.9765},
+    'IR50-Softmax-BR': {'cos': 0.33871138095855713, 'cos_acc': 0.996},
+    'IR50-Softmax-JPEG': {'cos': 0.34150177240371704, 'cos_acc': 0.9958333333333333},
+    'IR50-Softmax-RP': {'cos': 0.35351189970970154, 'cos_acc': 0.9941666666666666},
 }
 
 threshold_ytf = {
@@ -87,5 +87,34 @@ threshold_cfp = {
 THRESHOLD_DICT = {
     'lfw': threshold_lfw,
     'ytf': threshold_ytf,
-    'cfp': threshold_cfp
+    'cfp': threshold_cfp,
 }
+
+# Helper per accedere ai valori
+def get_threshold(dataset, model_name):
+    """
+    Ottiene la soglia per un dataset e un modello specifico.
+    :param dataset: Nome del dataset ('lfw', 'ytf', 'cfp').
+    :param model_name: Nome del modello.
+    :return: Dizionario con 'cos' e 'cos_acc', o None se non trovati.
+    """
+    thresholds = THRESHOLD_DICT.get(dataset, {})
+    if not thresholds:
+        print(f"Dataset '{dataset}' non trovato in THRESHOLD_DICT.")
+        return None
+    model_threshold = thresholds.get(model_name, None)
+    if not model_threshold:
+        print(f"Modello '{model_name}' non trovato nel dataset '{dataset}'.")
+        return None
+    return model_threshold
+
+# Debug
+if __name__ == "__main__":
+    # Test per LFW e MobileFace
+    dataset = 'lfw'
+    model_name = 'MobileFace'
+    threshold = get_threshold(dataset, model_name)
+    if threshold:
+        print(f"Soglia per {model_name} su {dataset}: {threshold}")
+    else:
+        print(f"Nessuna soglia trovata per {model_name} su {dataset}.")

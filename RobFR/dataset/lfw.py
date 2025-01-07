@@ -2,11 +2,16 @@ import os
 import torch
 import numpy as np
 from RobFR.dataset.base import Loader
+
 class LFWLoader(Loader):
     def __init__(self, datadir, goal, batch_size, model):
         super(LFWLoader, self).__init__(batch_size, model)
-        with open(os.path.join('config', 'pairs_lfw.txt')) as f:
-            lines = f.readlines() 
+        
+        config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../config/pairs_lfw.txt'))
+        
+        with open(config_path, 'r') as f:
+            lines = f.readlines()
+
         suffix = '.jpg'
         self.pairs = []
         for line in lines:
