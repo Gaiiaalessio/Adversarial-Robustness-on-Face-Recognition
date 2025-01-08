@@ -31,7 +31,7 @@ class FaceModel(nn.Module):
     def __init__(self, url, net, **kwargs):
         super(FaceModel, self).__init__()
         embedding_size = kwargs.get('embedding_size', 512)
-        device = kwargs.get('device', 'cpu')
+        device = kwargs.get('device', 'cuda')
         # get the pytorch model
         self.net = get_model(
                 net=net,
