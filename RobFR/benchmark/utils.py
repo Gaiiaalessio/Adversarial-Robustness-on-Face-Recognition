@@ -137,3 +137,4 @@ def run_white(loader, attacker, model, args):
             f.write(f"{adv},{img},{score},{d},{s}\n")
 
     print("[DEBUG] Log completato e salvato.")
+
